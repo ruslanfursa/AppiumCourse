@@ -4,6 +4,8 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.remote.MobileCapabilityType;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
@@ -56,6 +58,8 @@ public class Base {
         getWait10.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         return getWait10;
     }
+
+
 
 
 //    {"platformName": "Android",
