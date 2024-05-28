@@ -1,14 +1,11 @@
-package org.example;
+package org.example.apidemoapk;
 
 
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 
-public class FirstTest extends Base  {
+public class FirstTest extends Base {
     @Test
     public void newTest() {
 //        AndroidDriver<AndroidElement> driver = getDriver();

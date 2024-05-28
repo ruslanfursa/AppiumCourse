@@ -1,4 +1,4 @@
-package org.example;
+package org.example.apidemoapk;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;

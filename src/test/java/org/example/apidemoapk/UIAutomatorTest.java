@@ -1,8 +1,8 @@
-package org.example;
+package org.example.apidemoapk;
 
 import org.junit.jupiter.api.Test;
 
-public class UIAutomatorTest extends Base{
+public class UIAutomatorTest extends Base {
     @Test
     public void UIAutoTest() {
         getDriver().findElementByAndroidUIAutomator("text(\"Views\")").click();
