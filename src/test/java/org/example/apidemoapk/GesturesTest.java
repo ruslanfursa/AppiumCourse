@@ -1,4 +1,4 @@
-package org.example;
+package org.example.apidemoapk;
 
 import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.offset.ElementOption;
