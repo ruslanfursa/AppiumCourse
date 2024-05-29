@@ -18,4 +18,9 @@ public class FirstTest extends EcommerceBase{
         getDriver().findElement(By.className("android.widget.Button")).click();
     }
 
+    @Test
+    public void secondTest() {
+
+    }
+
 }
