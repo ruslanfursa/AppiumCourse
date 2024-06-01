@@ -13,19 +13,7 @@ public class FirstTest extends EcommerceBase {
     @Test
     public void firstTest() {
         String shoesWantToBuy = "Jordan 6 Rings";
-        getWait10().findElement(By
-                        .xpath("//android.widget.RadioButton[@resource-id='com.androidsample.generalstore:id/radioFemale']"))
-                .click();
-        getDriver().findElement(By.className("android.widget.Button")).click();
-        String errorMessage = getDriver().findElement(By.xpath("//android.widget.Toast[@text ='Please enter your name']")).getText();
-
-        Assertions.assertEquals("Please enter your name", errorMessage);
-
-        getDriver().findElement(By.className("android.widget.EditText")).sendKeys("Napoleon");
-        getDriver().findElement(By.id("android:id/text1")).click();
-        getDriver().findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Argentina\"));");
-        getDriver().findElement(By.xpath("//android.widget.TextView[@resource-id='android:id/text1' and @text='Argentina']")).click();
-        getDriver().findElement(By.className("android.widget.Button")).click();
+        login("Napoleon");
 
         String expectedHeader = "Products";
         String actualHeader = getDriver().findElement(By
@@ -44,13 +32,32 @@ public class FirstTest extends EcommerceBase {
             }
         }
 
-        getDriver().findElement(By.id("com.androidsample.generalstore:id/appbar_btn_cart")).click();
+        openCart();
 
         List<AndroidElement> cart = getDriver().findElements(By
                 .className("android.widget.TextView"));
 
         Assertions.assertTrue(isProductInCart(shoesWantToBuy, cart));
 
+    }
+
+    @Test
+    public void checkSumInCart() {
+        login("Gena");
+
+        List<AndroidElement> products = getDriver().findElements(By.id("com.androidsample.generalstore:id/productAddCart"));
+
+        for (AndroidElement product : products) {
+            product.click();
+        }
+
+        openCart();
+
+        Double expectedTotalPrice = calcTotalPrice();
+        Double actualTotalPrice = Double.parseDouble(getDriver()
+                .findElement(By.id("com.androidsample.generalstore:id/totalAmountLbl")).getText().substring(2));
+
+        Assertions.assertEquals(expectedTotalPrice, actualTotalPrice);
     }
 
     private boolean isProductInCart(String product, List<AndroidElement> list) {
@@ -60,6 +67,37 @@ public class FirstTest extends EcommerceBase {
             }
         }
         return false;
+    }
+
+    private void login(String name) {
+        getWait10().findElement(By
+                        .xpath("//android.widget.RadioButton[@resource-id='com.androidsample.generalstore:id/radioFemale']"))
+                .click();
+        getDriver().findElement(By.className("android.widget.Button")).click();
+        String errorMessage = getDriver().findElement(By.xpath("//android.widget.Toast[@text ='Please enter your name']")).getText();
+
+        Assertions.assertEquals("Please enter your name", errorMessage);
+
+        getDriver().findElement(By.className("android.widget.EditText")).sendKeys(name);
+        getDriver().findElement(By.id("android:id/text1")).click();
+        getDriver().findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Argentina\"));");
+        getDriver().findElement(By.xpath("//android.widget.TextView[@resource-id='android:id/text1' and @text='Argentina']")).click();
+        getDriver().findElement(By.className("android.widget.Button")).click();
+    }
+
+    private void openCart() {
+        getDriver().findElement(By.id("com.androidsample.generalstore:id/appbar_btn_cart")).click();
+    }
+
+    private Double calcTotalPrice() {
+        Double expectedSum = 0.0;
+
+        List<AndroidElement> prices = getDriver().findElements(By.id("com.androidsample.generalstore:id/productPrice"));
+
+        for (AndroidElement price : prices) {
+            expectedSum += Double.parseDouble(price.getText().substring(1));
+        }
+        return expectedSum;
     }
 }
 
