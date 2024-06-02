@@ -1,9 +1,18 @@
 package org.example.ecommerce;
 
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidElement;
+
+import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
+import static io.appium.java_client.touch.TapOptions.tapOptions;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import static io.appium.java_client.touch.offset.ElementOption.element;
+import static java.time.Duration.ofSeconds;
 
 
 import java.util.List;
@@ -42,14 +51,11 @@ public class FirstTest extends EcommerceBase {
     }
 
     @Test
-    public void checkSumInCart() {
+    public void checkSumInCartTest() {
         login("Gena");
 
         List<AndroidElement> products = getDriver().findElements(By.id("com.androidsample.generalstore:id/productAddCart"));
-
-        for (AndroidElement product : products) {
-            product.click();
-        }
+        addProductsToCart(products);
 
         openCart();
 
@@ -58,6 +64,36 @@ public class FirstTest extends EcommerceBase {
                 .findElement(By.id("com.androidsample.generalstore:id/totalAmountLbl")).getText().substring(2));
 
         Assertions.assertEquals(expectedTotalPrice, actualTotalPrice);
+    }
+
+    @Test
+    public void checkPopupTermsAndConditionsTest() {
+        login("Arnold");
+
+        List<AndroidElement> products = getDriver().findElements(By.id("com.androidsample.generalstore:id/productAddCart"));
+        addProductsToCart(products);
+
+        openCart();
+
+        WebElement checkbox = getDriver().findElement(By.className("android.widget.CheckBox"));
+
+        TouchAction touchAction = new TouchAction(getDriver());
+        touchAction.tap(tapOptions().withElement(element(checkbox))).perform();
+
+        WebElement termsAndConditions = getDriver().findElement(By.id("com.androidsample.generalstore:id/termsButton"));
+
+        touchAction.longPress(longPressOptions()
+                .withElement(element(termsAndConditions)).withDuration(ofSeconds(2))).release().perform();
+
+        getDriver().findElement(By.xpath("//*[@text = 'CLOSE']")).click();
+        getDriver().findElement(By.xpath("//*[@text = 'Visit to the website to complete purchase']")).click();
+
+    }
+
+    private void addProductsToCart(List<AndroidElement> list) {
+        for (AndroidElement product : list) {
+            product.click();
+        }
     }
 
     private boolean isProductInCart(String product, List<AndroidElement> list) {
@@ -90,7 +126,7 @@ public class FirstTest extends EcommerceBase {
     }
 
     private Double calcTotalPrice() {
-        Double expectedSum = 0.0;
+        double expectedSum = 0.0;
 
         List<AndroidElement> prices = getDriver().findElements(By.id("com.androidsample.generalstore:id/productPrice"));
 
