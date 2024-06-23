@@ -6,9 +6,12 @@ import io.appium.java_client.android.AndroidElement;
 import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
 import static io.appium.java_client.touch.TapOptions.tapOptions;
 
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 import static io.appium.java_client.touch.offset.ElementOption.element;
@@ -16,6 +19,7 @@ import static java.time.Duration.ofSeconds;
 
 
 import java.util.List;
+import java.util.Set;
 
 public class FirstTest extends EcommerceBase {
 
@@ -86,8 +90,47 @@ public class FirstTest extends EcommerceBase {
                 .withElement(element(termsAndConditions)).withDuration(ofSeconds(2))).release().perform();
 
         getDriver().findElement(By.xpath("//*[@text = 'CLOSE']")).click();
-        getDriver().findElement(By.xpath("//*[@text = 'Visit to the website to complete purchase']")).click();
+        goToWebsite();
 
+    }
+
+    @Test
+    public void checkWorkWithBrowserTest() {
+        login("Alex");
+
+        List<AndroidElement> products = getDriver().findElements(By.id("com.androidsample.generalstore:id/productAddCart"));
+
+        addProductsToCart(products);
+        openCart();
+        Set<String> handles = getDriver().getContextHandles();
+        String appHandleId = "";
+        for(String s : handles) {
+            appHandleId = s;
+        }
+
+        goToWebsite();
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        handles = getWait10(getDriver()).getContextHandles();
+
+        for(String s : handles) {
+            if(!s.equals(appHandleId)) {
+                getDriver().context(s);
+            }
+        }
+        getDriver().findElement(By.xpath("//textarea")).sendKeys("hello");
+        getDriver().findElement(By.xpath("//textarea")).sendKeys(Keys.ENTER);
+        getDriver().pressKey(new KeyEvent(AndroidKey.BACK));
+        getDriver().context(appHandleId);
+    }
+
+    private void goToWebsite() {
+        getDriver().findElement(By.xpath("//*[@text = 'Visit to the website to complete purchase']")).click();
     }
 
     private void addProductsToCart(List<AndroidElement> list) {

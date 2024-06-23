@@ -24,7 +24,7 @@ public class EcommerceBase {
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator-5554");
             capabilities.setCapability(MobileCapabilityType.APP, apkFile.getAbsolutePath());
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
-            return new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"),
+            return new AndroidDriver<>(new URL("http://127.0.0.1:4723/"),
                     capabilities);
         }
 
