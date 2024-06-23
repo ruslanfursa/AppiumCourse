@@ -2,6 +2,7 @@ package org.example.apidemoapk;
 
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.LongPressOptions;
+import org.example.Base.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -9,7 +10,7 @@ import org.openqa.selenium.WebElement;
 import static io.appium.java_client.touch.offset.ElementOption.element;
 import static java.time.Duration.ofSeconds;
 
-public class SwipeTest extends Base {
+public class SwipeTest extends BaseTest {
 
     @Test
     public void swipeTest() {

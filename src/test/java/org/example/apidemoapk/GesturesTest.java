@@ -3,13 +3,14 @@ package org.example.apidemoapk;
 import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.offset.ElementOption;
 
+import org.example.Base.BaseTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import io.appium.java_client.TouchAction;
 
-public class GesturesTest extends Base {
+public class GesturesTest extends BaseTest {
     @Test
     public void longTapTest() {
         getDriver().findElementByAndroidUIAutomator("text(\"Views\")").click();

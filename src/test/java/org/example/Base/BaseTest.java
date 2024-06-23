@@ -1,4 +1,4 @@
-package org.example.apidemoapk;
+package org.example.Base;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
@@ -10,7 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
-public class Base {
+public class BaseTest {
 
 
     private AndroidDriver<AndroidElement> capabilities() throws MalformedURLException {
@@ -24,7 +24,18 @@ public class Base {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator-5554");
         capabilities.setCapability(MobileCapabilityType.APP, apkFile.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
-        return new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"),
+        return new AndroidDriver<>(new URL("http://127.0.0.1:4723/"),
+                capabilities);
+    }
+
+    private AndroidDriver<AndroidElement> chromeCapabilities() throws MalformedURLException {
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator-5554");
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "Chrome");
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
+        return new AndroidDriver<>(new URL("http://127.0.0.1:4723/"),
                 capabilities);
     }
 
@@ -39,7 +50,8 @@ public class Base {
 
     {
         try {
-            driver = capabilities();
+//            driver = capabilities();
+            driver = chromeCapabilities();
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
