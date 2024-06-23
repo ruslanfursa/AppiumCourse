@@ -1,11 +1,12 @@
 package org.example.apidemoapk;
 
 
+import org.example.Base.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 
-public class FirstTest extends Base {
+public class FirstTest extends BaseTest {
     @Test
     public void newTest() {
 //        AndroidDriver<AndroidElement> driver = getDriver();
